@@ -1,0 +1,124 @@
+>>> 'spam eggs'
+'spam eggs'
+>>> 'doesn\'t'
+"doesn't"
+>>> "doesn't"
+"doesn't"
+>>> '"Yes," they said.'
+'"Yes," they said.'
+>>> "\"Yes,\" they said."
+'"Yes," they said.'
+>>> '"Isn\'t," they said.'
+'"Isn\'t," they said.'
+
+>>> '"Isn\'t," they said.'
+'"Isn\'t," they said.'
+>>> print('"Isn\'t," they said.')
+"Isn't," they said.
+>>> s = 'First line.\nSecond line.'
+>>> s  # without print(),
+'First line.\nSecond line.'
+>>> print(s)  # with print(),
+First line.
+Second line.
+
+>>> print('C:\some\name')
+C:\some
+ame
+>>> print(r'C:\some\name')
+C:\some\name
+
+>>> print("""\
+... Usage: thingy [OPTIONS]
+...     -h                        Display this usage message
+...     -H hostname               Hostname to connect to
+... """)
+Usage: thingy [OPTIONS]
+        -h                        Display this usage message
+        -H hostname               Hostname to connect to
+
+   >>> # 3 times 'un'
+>>> # 3 times 'un', followed by 'ium'
+>>> 3 * 'un' + 'ium'
+'unununium'
+
+>>> 'Py' 'thon'
+'Python'
+
+>>> text = ('Put several strings within parentheses '
+...     'to have them joined together.')
+>>> text
+'Put several strings within parentheses to have them joined together.'
+
+>>> prefix = 'Py'
+>>> prefix 'thon'
+  File "<stdin>", line 1
+    prefix 'thon'
+    SyntaxError: invalid syntax
+>>> ('un' * 3) 'ium'
+  File "<stdin>", line 1
+    ('un' * 3) 'ium'
+               ^^^^^
+SyntaxError: invalid syntax
+
+>>> prefix + 'thon'
+'Python'
+
+>>> word = 'Python'
+>>> word[0]
+'P'
+>>> word[5]
+'n'
+
+>>> word[-1]
+'n'
+>>> word[-2]
+'o'
+>>> word[-6]
+'P'
+
+>>> word[0:2]
+'Py'
+>>> word[2:5]
+'tho'
+
+>>> word[:2]
+'Py'
+>>> word[4:]
+'on'
+>>> word[-2:]
+'on'
+
+>>> word[:2] + word[2:]
+'Python'
+>>> word[:4] + word[4:]
+'Python'
+
+ +---+---+---+---+---+---+
+ | P | y | t | h | o | n |
+ +---+---+---+---+---+---+
+ 0   1   2   3   4   5   6
+-6  -5  -4  -3  -2  -1
+
+>>> word[4:42]
+'on'
+>>> word[42:]
+''
+
+>>> word[0] = 'J'
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'str' object does not support item assignment
+>>> word[2:] = 'py'
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'str' object does not support item assignment
+
+>>> 'J' + word[1:]
+'Jython'
+>>> word[:2] + 'py'
+'Pypy'
+
+>>> s = 'supercalifragilisticexpialidocious'
+>>> len(s)
+34
