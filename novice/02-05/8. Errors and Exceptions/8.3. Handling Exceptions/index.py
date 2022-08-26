@@ -1,12 +1,12 @@
-while True:
-        try:
-        x = int(input("Please enter a number: "))
-        break
-    except ValueError:        print("Oops!  That was no valid number.  Try again...")
+# while True:
+#     try:
+#         x = int(input("Please enter a number: "))
+#         break
+#     except ValueError:     
+#         print("input nomor aja gais")   
 
-
-except (RuntimeError, TypeError, NameError):
-     pass
+# except (RuntimeError, TypeError, NameError):
+#      pass
 
 class B(Exception):
     pass
@@ -51,28 +51,22 @@ for arg in sys.argv[1:]:
         f.close()
 
 try:
-...     raise Exception('spam', 'eggs')
-... except Exception as inst:
-...     print(type(inst))    # the exception instance
-...     print(inst.args)     # arguments stored in .args
-...     print(inst)          # __str__ allows args to be printed directly,
-...                          # but may be overridden in exception subclasses
-...     x, y = inst.args     # unpack args
-...     print('x =', x)
-...     print('y =', y)
-...
-<class 'Exception'>
-('spam', 'eggs')
-('spam', 'eggs')
-x = spam
-y = eggs
+   raise Exception('spam', 'eggs')
+except Exception as inst:
+    print(type(inst))  
+    print(inst.args)    
+    print(inst)          
+                          
+    x, y = inst.args     
+    print('x =', x)
+    print('y =', y)
 
- def this_fails():
-...     x = 1/0
-...
->>> try:
-...     this_fails()
-... except ZeroDivisionError as err:
-...     print('Handling run-time error:', err)
-...
-Handling run-time error: division by zero
+
+def this_fails():
+    x = 1/0
+
+try:
+    this_fails()
+except ZeroDivisionError as err:
+    print('Handling run-time error:', err)
+

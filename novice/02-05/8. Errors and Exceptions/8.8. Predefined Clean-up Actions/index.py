@@ -1,4 +1,5 @@
 for line in open("myfile.txt"):
+  print(line, end="")
     print(line, end="")
 
 with open("myfile.txt") as f:
