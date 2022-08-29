@@ -1,0 +1,91 @@
+Memanggil fungsi PostgreSQL dalam langkah-langkah Python
+Untuk memanggil fungsi PostgreSQL dari program Python, Anda menggunakan langkah-langkah berikut:
+
+Pertama, buat koneksi database baru ke server database PostgreSQL dengan memanggil connect()fungsi psycopg2modul.
+
+conn = psycopg2.connect(dsn)
+Bahasa kode:  Python  ( python )
+Metode connect()mengembalikan instance baru dari connectionkelas.
+
+Selanjutnya, buat kursor baru dengan memanggil cursor()metode objek koneksi.
+
+cur = conn.cursor()
+Bahasa kode:  SQL (Structured Query Language)  ( sql )
+Kemudian, berikan nama fungsi dan nilai input opsional ke callproc()metode objek kursor.
+
+cur.callproc('function_name', (value1,value2))
+Bahasa kode:  SQL (Structured Query Language)  ( sql )
+Secara internal,   callproc()metode menerjemahkan panggilan fungsi dan nilai input ke dalam pernyataan berikut:
+
+SELECT * FROM function_name(value1,value2);
+Bahasa kode:  Python  ( python )
+Oleh karena itu, Anda dapat menggunakan execute()metode objek kursor untuk memanggil fungsi sebagai berikut:
+
+cur.execute("SELECT * FROM function_name( %s,%s); ",(value1,value2))
+Bahasa kode:  Python  ( python )
+Kedua pernyataan memiliki efek yang sama.
+
+Setelah itu, proses kumpulan hasil yang dikembalikan oleh fungsi menggunakan metode fetchone(),   fetchall(), atau   fetchmany().
+
+Terakhir, panggil close()metode cursordan connectionobjek untuk menutup komunikasi dengan server database PostgreSQL.
+
+cur.close()
+conn.close()
+Bahasa kode:  Python  ( python )
+Memanggil contoh fungsi
+Fungsi berikut get_parts_by_vendors()mengembalikan daftar suku cadang yang disediakan oleh vendor tertentu.
+
+CREATE OR REPLACE FUNCTION get_parts_by_vendor(id integer)
+  RETURNS TABLE(part_id INTEGER, part_name VARCHAR) AS
+$$
+BEGIN
+ RETURN QUERY
+
+ SELECT parts.part_id, parts.part_name
+ FROM parts
+ INNER JOIN vendor_parts on vendor_parts.part_id = parts.part_id
+ WHERE vendor_id = id;
+
+END; $$
+
+LANGUAGE plpgsql;
+Bahasa kode:  SQL (Structured Query Language)  ( sql )
+Fungsi berikut get_parts()memanggil get_parts_by_vendors()fungsi:
+
+#!/usr/bin/python
+import psycopg2
+from config import config
+
+
+def get_parts(vendor_id):
+    """ get parts provided by a vendor specified by the vendor_id """
+    conn = None
+    try:
+        # read database configuration
+        params = config()
+        # connect to the PostgreSQL database
+        conn = psycopg2.connect(**params)
+        # create a cursor object for execution
+        cur = conn.cursor()
+        # another way to call a function
+        # cur.execute("SELECT * FROM get_parts_by_vendor( %s); ",(vendor_id,))
+        cur.callproc('get_parts_by_vendor', (vendor_id,))
+        # process the result set
+        row = cur.fetchone()
+        while row is not None:
+            print(row)
+            row = cur.fetchone()
+        # close the communication with the PostgreSQL database server
+        cur.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+Bahasa kode:  Python  ( python )
+Berikut ini memanggil get_parts()fungsi untuk mendapatkan daftar suku cadang yang disediakan oleh vendor dengan id 1:
+
+if __name__ == '__main__':
+    get_parts(1)
+Bahasa kode:  Python  ( python )
+Dalam tutorial ini, Anda telah mempelajari langkah demi langkah cara memanggil fungsi PostgreSQL dengan Python.

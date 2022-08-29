@@ -1,0 +1,107 @@
+Langkah-langkah untuk memanggil prosedur tersimpan PostgreSQL dengan Python
+Untuk memanggil prosedur tersimpan PostgreSQL dalam program Python, Anda mengikuti langkah-langkah ini:
+
+Pertama, buat koneksi database baru ke server database PostgreSQL dengan memanggil connect()fungsi:
+
+conn = psycopg2.connect(dsn)
+Bahasa kode:  Python  ( python )
+Metode connect()mengembalikan instance baru dari connectionkelas.
+
+Selanjutnya, buat kursor baru dengan memanggil cursor()metode objek koneksi.
+
+cur = conn.cursor()
+Bahasa kode:  Python  ( python )
+Kemudian, berikan nama prosedur tersimpan dan nilai input opsional ke execute()metode cursorobjek. Sebagai contoh:
+
+cur.execute("CALL sp_name(%s, %s);", (val1, val2))
+Bahasa kode:  Python  ( python )
+Jika prosedur tersimpan Anda tidak menerima parameter apa pun, Anda dapat menghilangkan argumen kedua seperti ini:
+
+cur.execute("CALL sp_name);")
+Bahasa kode:  Python  ( python )
+Setelah itu, panggil commit()metode untuk melakukan transaksi:
+
+conn.commit();
+Bahasa kode:  Python  ( python )
+Terakhir, panggil close()metode cursordan connectionobjek untuk menutup koneksi ke server database PostgreSQL.
+
+cur.close()
+conn.close()
+Bahasa kode:  Python  ( python )
+Memanggil contoh prosedur tersimpan
+Pertama, buat add_new_part()prosedur tersimpan berikut di suppliersdatabase.
+
+CREATE OR REPLACE PROCEDURE add_new_part(
+	new_part_name varchar,
+	new_vendor_name varchar
+) 
+AS $$
+DECLARE
+	v_part_id INT;
+	v_vendor_id INT;
+BEGIN
+	-- insert into the parts table
+	INSERT INTO parts(part_name) 
+	VALUES(new_part_name) 
+	RETURNING part_id INTO v_part_id;
+	
+	-- insert a new vendor
+	INSERT INTO vendors(vendor_name)
+	VALUES(new_vendor_name)
+	RETURNING vendor_id INTO v_vendor_id;
+	
+	-- insert into vendor_parts
+	INSERT INTO vendor_parts(part_id, vendor_id)
+	VALUEs(v_part_id,v_vendor_id);
+	
+END;
+$$
+LANGUAGE PLPGSQL;
+Bahasa kode:  SQL (Structured Query Language)  ( sql )
+Kedua, buat file baru bernama stored_proc.pydan definisikan add_part()fungsi berikut. Fungsi add_part()memanggil add_new_part()prosedur tersimpan dari suppliersdatabase:
+
+#!/usr/bin/python
+import psycopg2
+from config import config
+
+
+def add_part(part_name, vendor_name):
+
+    conn = None
+    try:
+        # read database configuration
+        params = config()
+        # connect to the PostgreSQL database
+        conn = psycopg2.connect(**params)
+        # create a cursor object for execution
+        cur = conn.cursor()
+
+        # call a stored procedure
+        cur.execute('CALL add_new_part(%s,%s)', (part_name, vendor_name))
+
+        # commit the transaction
+        conn.commit()
+
+        # close the cursor
+        cur.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+
+if __name__ == '__main__':
+    add_part('OLED', 'LG')
+Bahasa kode:  Python  ( python )
+Menjalankan file python
+Untuk mengeksekusi file python, Anda menggunakan pernyataan berikut:
+
+python stored_proc.py
+Bahasa kode:  CSS  ( css )
+Untuk memverifikasi penyisipan, Anda dapat membuat kueri data dari parts, vendors, dan vendor_partstabel:
+
+SELECT * FROM parts;
+SELECT * FROM vendors;
+SELECT * FROM vendor_parts;
+Dalam tutorial ini, Anda telah mempelajari langkah demi langkah cara memanggil prosedur tersimpan PostgreSQL dengan Python.
+

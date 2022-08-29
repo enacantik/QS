@@ -1,0 +1,111 @@
+Tutorial ini mengasumsikan bahwa Anda tahu cara menulis CREATE TABLE pernyataan. Jika ini bukan masalahnya, Anda harus melihat CREATE TABLEtutorialnya .
+
+Langkah-langkah untuk membuat tabel PostgreSQL dengan Python
+Untuk membuat tabel baru di database PostgreSQL, Anda menggunakan langkah-langkah berikut:
+
+Pertama, buat pernyataan CREATE TABLE .
+Selanjutnya, sambungkan ke database PostgreSQL dengan memanggil connect()fungsi. Fungsi connect()mengembalikan connectionobjek.
+Kemudian, buat cursor objek dengan memanggil cursor()metode connectionobjek.
+Setelah itu, jalankan CREATE TABLEdengan memanggil execute()metode cursorobjek.
+Terakhir, tutup komunikasi dengan server database PostgreSQL dengan memanggil close()metode cursordan connectionobjek.
+Membuat tabel dalam contoh Python
+1) Buat program Python
+Pertama, buat file baru bernama create_table.py.
+
+Kedua, di dalam create_table.pyfile, tentukan fungsi baru bernama create_tables().
+
+Fungsi ini create_tables()membuat empat tabel dalam suppliersdatabase: vendors, parts, vendor_parts, dan part_drawings.
+
+Diagram Basis Data Contoh Python PostgreSQL
+#!/usr/bin/python
+
+import psycopg2
+from config import config
+
+
+def create_tables():
+    """ create tables in the PostgreSQL database"""
+    commands = (
+        """
+        CREATE TABLE vendors (
+            vendor_id SERIAL PRIMARY KEY,
+            vendor_name VARCHAR(255) NOT NULL
+        )
+        """,
+        """ CREATE TABLE parts (
+                part_id SERIAL PRIMARY KEY,
+                part_name VARCHAR(255) NOT NULL
+                )
+        """,
+        """
+        CREATE TABLE part_drawings (
+                part_id INTEGER PRIMARY KEY,
+                file_extension VARCHAR(5) NOT NULL,
+                drawing_data BYTEA NOT NULL,
+                FOREIGN KEY (part_id)
+                REFERENCES parts (part_id)
+                ON UPDATE CASCADE ON DELETE CASCADE
+        )
+        """,
+        """
+        CREATE TABLE vendor_parts (
+                vendor_id INTEGER NOT NULL,
+                part_id INTEGER NOT NULL,
+                PRIMARY KEY (vendor_id , part_id),
+                FOREIGN KEY (vendor_id)
+                    REFERENCES vendors (vendor_id)
+                    ON UPDATE CASCADE ON DELETE CASCADE,
+                FOREIGN KEY (part_id)
+                    REFERENCES parts (part_id)
+                    ON UPDATE CASCADE ON DELETE CASCADE
+        )
+        """)
+    conn = None
+    try:
+        # read the connection parameters
+        params = config()
+        # connect to the PostgreSQL server
+        conn = psycopg2.connect(**params)
+        cur = conn.cursor()
+        # create table one by one
+        for command in commands:
+            cur.execute(command)
+        # close communication with the PostgreSQL database server
+        cur.close()
+        # commit the changes
+        conn.commit()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+
+
+if __name__ == '__main__':
+    create_tables()
+Bahasa kode:  Python  ( python )
+2) Jalankan program Python
+Untuk menjalankan program Python, Anda menggunakan perintah berikut:
+
+python create_table.py
+Bahasa kode:  CSS  ( css )
+3) Verifikasi pembuatan tabel
+Pertama, login ke server database PostgreSQL menggunakan program psql.
+
+Kedua, gunakan \dt perintah untuk menampilkan daftar tabel dari suppliersdatabase.
+
+suppliers=# \dt
+             List of relations
+ Schema |     Name      | Type  |  Owner
+--------+---------------+-------+----------
+ public | part_drawings | table | postgres
+ public | parts         | table | postgres
+ public | vendor_parts  | table | postgres
+ public | vendors       | table | postgres
+(4 rows)
+Bahasa kode:  PHP  ( php )
+Seperti yang Anda lihat dapat dilihat dengan jelas dari output, kami memiliki empat tabel yang berhasil dibuat di suppliersdatabase.
+
+Jika Anda menggunakan alat klien lain seperti pgAdmin, Anda dapat melihat tabel melalui daftar tabel di bawah publicskema.
+
+Dalam tutorial ini, Anda telah mempelajari langkah demi langkah cara membuat tabel PostgreSQL baru dengan Python menggunakan adaptor database psycopg.

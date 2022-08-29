@@ -1,0 +1,121 @@
+Langkah-langkah untuk menyisipkan satu baris ke dalam tabel PostgreSQL
+Untuk menyisipkan baris ke dalam tabel PostgreSQL dengan Python, Anda menggunakan langkah-langkah berikut:
+
+Pertama, sambungkan ke server database PostgreSQL dengan memanggil connect()fungsi psycopgmodul.
+
+conn = psycopg2.connect(dsn)
+Bahasa kode:  Python  ( python )
+Fungsi connect() mengembalikan instance baru dari connectionkelas.
+
+Selanjutnya, buat cursorobjek baru dengan memanggil cursor()metode connectionobjek.
+
+cur = conn.cursor()
+Bahasa kode:  Python  ( python )
+Kemudian, jalankan INSERTpernyataan dengan nilai input dengan memanggil execute()metode cursorobjek.
+
+cur.execute(sql, (value1,value2))
+Bahasa kode:  Python  ( python )
+Anda meneruskan INSERTpernyataan ke parameter pertama dan daftar nilai ke parameter kedua execute()metode.
+
+Jika kunci utama tabel adalah kolom serial atau identitas , Anda bisa mendapatkan kembali ID yang dihasilkan setelah memasukkan baris.
+
+Untuk melakukan ini, Anda menggunakan RETURNING idklausa dalam INSERTpernyataan. Setelah memanggil execute()metode, Anda memanggil   fetchone()metode cursorobjek untuk mendapatkan idnilai seperti ini:
+
+id = cur.fetchone()[0]
+Bahasa kode:  Python  ( python )
+Setelah itu, panggil commit()metode connectionobjek untuk menyimpan perubahan secara permanen ke database.
+
+conn.commit()
+Bahasa kode:  Python  ( python )
+Jika Anda lupa memanggil commit()metode, psycopg2tidak akan membuat perubahan apa pun pada tabel.
+
+Terakhir, tutup koneksi ke server database PostgreSQL dengan memanggil close()metode cursordan connectionobjek.
+
+cur.close()
+conn.close()
+Bahasa kode:  Python  ( python )
+Memasukkan satu baris ke dalam contoh tabel PostgreSQL
+Untuk demonstrasinya, kita akan menggunakan vendorstabel pada supplierstabel yang telah kita buat pada tutorial membuat tabel .
+
+vendor_table
+Fungsi berikut insert_vendor()menyisipkan baris baru ke dalam vendorstabel dan mengembalikan nilai yang baru dibuat vendor_id.
+
+#!/usr/bin/python
+
+import psycopg2
+from config import config
+
+
+def insert_vendor(vendor_name):
+    """ insert a new vendor into the vendors table """
+    sql = """INSERT INTO vendors(vendor_name)
+             VALUES(%s) RETURNING vendor_id;"""
+    conn = None
+    vendor_id = None
+    try:
+        # read database configuration
+        params = config()
+        # connect to the PostgreSQL database
+        conn = psycopg2.connect(**params)
+        # create a new cursor
+        cur = conn.cursor()
+        # execute the INSERT statement
+        cur.execute(sql, (vendor_name,))
+        # get the generated id back
+        vendor_id = cur.fetchone()[0]
+        # commit the changes to the database
+        conn.commit()
+        # close communication with the database
+        cur.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+
+    return vendor_id
+Bahasa kode:  Python  ( python )
+Memasukkan beberapa baris ke dalam contoh tabel PostgreSQL
+Langkah-langkah untuk menyisipkan beberapa baris ke dalam tabel mirip dengan langkah-langkah menyisipkan satu baris, kecuali bahwa pada langkah ketiga, alih-alih memanggil execute()metode cursorobjek, Anda memanggil   executemany()metode.
+
+Misalnya, insert_vendor_list()fungsi berikut menyisipkan beberapa baris ke dalam vendorstabel.
+
+def insert_vendor_list(vendor_list):
+    """ insert multiple vendors into the vendors table  """
+    sql = "INSERT INTO vendors(vendor_name) VALUES(%s)"
+    conn = None
+    try:
+        # read database configuration
+        params = config()
+        # connect to the PostgreSQL database
+        conn = psycopg2.connect(**params)
+        # create a new cursor
+        cur = conn.cursor()
+        # execute the INSERT statement
+        cur.executemany(sql,vendor_list)
+        # commit the changes to the database
+        conn.commit()
+        # close communication with the database
+        cur.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+Bahasa kode:  Python  ( python )
+Untuk menguji insert_vendor()dan insert_vendor_list()fungsi, Anda menggunakan cuplikan kode berikut:
+
+if __name__ == '__main__':
+    # insert one vendor
+    insert_vendor("3M Co.")
+    # insert multiple vendors
+    insert_vendor_list([
+        ('AKM Semiconductor Inc.',),
+        ('Asahi Glass Co Ltd.',),
+        ('Daikin Industries Ltd.',),
+        ('Dynacast International Inc.',),
+        ('Foster Electric Co. Ltd.',),
+        ('Murata Manufacturing Co. Ltd.',)
+    ])
+Bahasa kode:  SQL (Structured Query Language)  ( sql )
+Dalam tutorial ini, Anda telah mempelajari langkah-langkah menyisipkan satu atau lebih baris ke dalam tabel PostgreSQL dari program Python.

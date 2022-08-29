@@ -1,0 +1,29 @@
+Bagian Python PostgreSQL ini menunjukkan kepada Anda cara bekerja dengan database PostgreSQL menggunakan bahasa pemrograman Python .
+
+Python memiliki berbagai driver database untuk PostgreSQL. Saat ini, psycopg adalah adaptor database PostgreSQL paling populer untuk bahasa Python. Psycopg sepenuhnya mengimplementasikan spesifikasi Python DB-API 2.0.
+
+Versi psycopg saat ini adalah 2 atau psycopg2. Adaptor database psycopg2 diimplementasikan dalam C sebagai pembungkus libpq yang menghasilkan cepat dan aman. psycopg2 menyediakan banyak fitur berguna seperti kursor sisi klien dan sisi server , pemberitahuan dan komunikasi asinkron, dukungan perintah COPY, dll.
+
+Selain itu, driver psycopg2 mendukung banyak jenis Python out-of-the-box. psycopg2 mencocokkan objek Python dengan tipe data PostgreSQL , misalnya list ke  array , tuple ke record, dan dictionary ke hstore . Jika Anda ingin menyesuaikan dan memperluas adaptasi tipe, Anda dapat menggunakan sistem adaptasi objek yang fleksibel.
+
+Bagian Python PostgreSQL ini mencakup aktivitas paling umum untuk berinteraksi dengan PostgreSQL dalam aplikasi Python:
+
+Menghubungkan ke server database PostgreSQL – tunjukkan cara terhubung ke server database PostgreSQL dari Python.
+Membuat tabel PostgreSQL baru dengan Python – menunjukkan cara membuat tabel baru di PostgreSQL dari Python.
+Memasukkan data ke dalam tabel PostgreSQL dengan Python – jelaskan kepada Anda cara memasukkan data ke dalam tabel database PostgreSQL dengan Python.
+Memperbarui data di tabel PostgreSQL dengan Python – pelajari berbagai cara untuk memperbarui data di tabel PostgreSQL.
+Transaksi – menunjukkan cara melakukan transaksi dengan Python.
+Membuat kueri data dari tabel PostgreSQL – memandu Anda melalui langkah-langkah kueri data dari tabel PostgreSQL dalam aplikasi Python.
+Memanggil fungsi PostgreSQL dengan Python – tunjukkan langkah demi langkah cara memanggil fungsi PostgreSQL dengan Python.
+Memanggil prosedur tersimpan PostgreSQL dengan Python – memandu Anda tentang cara memanggil prosedur tersimpan dari dalam aplikasi Python.
+Menangani data BLOB PostgreSQL dengan Python – memberi Anda contoh memasukkan dan memilih data BLOB PostgreSQL dalam aplikasi Python.
+Menghapus data dari tabel PostgreSQL dengan Python – menunjukkan cara menghapus data dalam tabel dengan Python.
+Untuk tujuan demonstrasi, kami akan menggunakan suppliersdatabase sampel. Gambar berikut mengilustrasikan struktur suppliersdatabase:
+
+Diagram Basis Data Contoh Python PostgreSQL
+Database suppliersmemiliki tabel berikut:
+
+ vendorstabel: menyimpan data vendor.
+ partstabel: menyimpan data bagian.
+ parts_drawingstabel: menyimpan gambar bagian.
+ vendor_partstabel: menyimpan data bagian mana yang dipasok oleh vendor mana.

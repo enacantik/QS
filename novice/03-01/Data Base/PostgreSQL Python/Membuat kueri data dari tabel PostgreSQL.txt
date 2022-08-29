@@ -1,0 +1,153 @@
+Langkah-langkah untuk meminta data dari tabel PostgreSQL dengan Python
+Untuk melakukan kueri data dari satu atau beberapa tabel PostgreSQL dengan Python, Anda menggunakan langkah-langkah berikut.
+
+Pertama, buat koneksi ke server database PostgreSQL dengan memanggil connect()fungsi psycopgmodul.
+
+conn = psycopg2.connect(dsn)
+Bahasa kode:  Python  ( python )
+Jika koneksi berhasil dibuat, connect()fungsi mengembalikan connectionobjek baru, jika tidak, ia akan melempar DatabaseErrorpengecualian.
+
+Selanjutnya, buat kursor baru dengan memanggil cursor()metode connectionobjek. Objek cursordigunakan untuk mengeksekusi pernyataan SELECT .
+
+cur = conn.cursor()
+Bahasa kode:  Python  ( python )
+Kemudian, jalankan SELECTpernyataan dengan memanggil execute()metode. Jika Anda ingin meneruskan nilai ke SELECTpernyataan, Anda menggunakan placeholder ( %s) dalam SELECTpernyataan dan mengikat nilai input saat Anda memanggil execute()metode sebagai berikut.
+
+cur.execute(sql, (value1,value2))
+Bahasa kode:  Python  ( python )
+Setelah itu, proses kumpulan hasil yang dikembalikan oleh prosedur tersimpan menggunakan metode   fetchone(),   fetchall(), atau   fetchmany().
+
+Itu  fetchone()Mengambil baris berikutnya di set hasilIni mengembalikan satu Tuple atau Noneketika tidak ada lagi baris yang tersedia.
+Mengambil   fetchmany(size=cursor.arraysize)set baris berikutnya yang ditentukan oleh sizeparameter. Jika Anda menghilangkan parameter ini,   arraysizeakan menentukan jumlah baris yang akan diambil. Metode   fetchmany()mengembalikan daftar tupel atau daftar kosong jika tidak ada lagi baris yang tersedia.
+Mengambil   fetchall()semua baris dalam kumpulan hasil dan mengembalikan daftar tupel. Jika tidak ada baris untuk diambil,   fetchall()metode mengembalikan daftar kosong.
+Terakhir, tutup komunikasi dengan PostgreSQL dengan memanggil close()metode cursordan connectionobjek
+
+cur.close()
+conn.close()
+Bahasa kode:  Python  ( python )
+Mengkueri data menggunakan metode fetchone()
+Untuk demonstrasi, kami akan menggunakan parts, vendors, dan vendor_partstabel dalam suppliersdatabase yang kami buat di tutorial membuat tabel
+
+Diagram Basis Data Contoh Python PostgreSQL
+Fungsi berikut get_vendor()memilih data dari vendorstabel dan mengambil baris menggunakan   fetchone()metode.
+
+def get_vendors():
+    """ query data from the vendors table """
+    conn = None
+    try:
+        params = config()
+        conn = psycopg2.connect(**params)
+        cur = conn.cursor()
+        cur.execute("SELECT vendor_id, vendor_name FROM vendors ORDER BY vendor_name")
+        print("The number of parts: ", cur.rowcount)
+        row = cur.fetchone()
+
+        while row is not None:
+            print(row)
+            row = cur.fetchone()
+
+        cur.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+Bahasa kode:  Python  ( python )
+Berikut ini adalah output dari get_vendors()fungsi tersebut.
+
+if __name__ == '__main__':
+    get_vendors()
+Bahasa kode:  Python  ( python )
+The number of parts:  7
+(1, '3M Corp')
+(2, 'AKM Semiconductor Inc.')
+(3, 'Asahi Glass Co Ltd.')
+(4, 'Daikin Industries Ltd.')
+(5, 'Dynacast International Inc.')
+(6, 'Foster Electric Co. Ltd.')
+(7, 'Murata Manufacturing Co. Ltd.')
+Bahasa kode:  JavaScript  ( javascript )
+Membuat kueri data menggunakan metode fetchall()
+Fungsi berikut get_parts()menggunakan fetchall()metode objek kursor untuk mengambil baris dari kumpulan hasil dan menampilkan semua bagian dalam partstabel.
+
+def get_parts():
+    """ query parts from the parts table """
+    conn = None
+    try:
+        params = config()
+        conn = psycopg2.connect(**params)
+        cur = conn.cursor()
+        cur.execute("SELECT part_id, part_name FROM parts ORDER BY part_name")
+        rows = cur.fetchall()
+        print("The number of parts: ", cur.rowcount)
+        for row in rows:
+            print(row)
+        cur.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+Bahasa kode:  Python  ( python )
+if __name__ == '__main__':
+    get_parts()
+Bahasa kode:  Python  ( python )
+The number of parts:  6
+(4, 'Antenna')
+(5, 'Home Button')
+(6, 'LTE Modem')
+(1, 'SIM Tray')
+(2, 'Speaker')
+(3, 'Vibrator')
+Bahasa kode:  Python  ( python)
+Mengkueri data menggunakan metode fetchmany()
+Fungsi berikut get_suppliers()memilih suku cadang dan data vendor menggunakan fetchmany()metode ini.
+
+def iter_row(cursor, size=10):
+    while True:
+        rows = cursor.fetchmany(size)
+        if not rows:
+            break
+        for row in rows:
+            yield row
+
+def get_part_vendors():
+    """ query part and vendor data from multiple tables"""
+    conn = None
+    try:
+        params = config()
+        conn = psycopg2.connect(**params)
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT part_name, vendor_name
+            FROM parts
+            INNER JOIN vendor_parts ON vendor_parts.part_id = parts.part_id
+            INNER JOIN vendors ON vendors.vendor_id = vendor_parts.vendor_id
+            ORDER BY part_name;
+        """)
+        for row in iter_row(cur, 10):
+            print(row)
+        cur.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+Bahasa kode:  Python  ( python )
+if __name__ == '__main__':
+    get_part_vendors()
+Bahasa kode:  Python  ( python )
+('Antenna', 'Foster Electric Co. Ltd.')
+('Antenna', 'Murata Manufacturing Co. Ltd.')
+('Home Button', 'Dynacast International Inc.')
+('Home Button', '3M Corp')
+('LTE Modem', 'Dynacast International Inc.')
+('LTE Modem', '3M Corp')
+('SIM Tray', 'AKM Semiconductor Inc.')
+('SIM Tray', '3M Corp')
+('Speaker', 'Daikin Industries Ltd.')
+('Speaker', 'Asahi Glass Co Ltd.')
+('Vibrator', 'Dynacast International Inc.')
+('Vibrator', 'Foster Electric Co. Ltd.')
+Bahasa kode:  JavaScript  ( javascript )
+Dalam tutorial ini, kami telah menunjukkan kepada Anda berbagai cara untuk memilih data dari tabel PostgreSQL dengan Python menggunakan metode  fetchone(), fetchall(), dan fetchmany().
