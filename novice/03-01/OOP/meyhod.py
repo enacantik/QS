@@ -5,4 +5,4 @@ class Person:
 p = Person()
 p.say_hi()
 
-print(1)
+print(2)
