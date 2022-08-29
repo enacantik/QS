@@ -4,3 +4,5 @@ class Person:
 
 p = Person()
 p.say_hi()
+
+print(1)
