@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h1>Ini request</h1>
+        <form action="" method="post">
+            <label for="">nama</label>
+            <input name="nama" type="text" required>
+            <label for="">detail</label>
+            <input name="detail" type="text" required>
+            <button type="submit">kirim</button>
+
+        </form>
+
+    <hr>
+    <h1>Ini responses</h1>
+    {{context}}
+    <br>
+    <table>
+        <tr>
+            <th>id</th>
+            <th>nama</th>
+            <th>detail</th>
+        <tr>
+        {% for d in context %}
+        <tr>
+            <td>{{d[0]}}</td>
+            <td>{{d[1]}}</td>
+            <td>{{d[2]}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+        </div>
+    
+    </body>
+    </html>
