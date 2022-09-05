@@ -69,6 +69,27 @@ def detail(buah_id):
     conn.close()
     return redirect ("/")
 
+@app.route("/update/<buah_id>")
+def update(buah_id):
+    conn = psycopg2.connect(
+        host="localhost",
+        database="contoh",
+        user="postgres",
+        password="enacantiksekali")
+        
+    curs = conn.cursor()
+
+    namaLama = 'kueni'
+    namaBaru = 'markisa'
+    detailBaru = 'segar'   
+    query = f"update buah set nama='{namaBaru}',  detail='{detailBaru}' where nama ='{namaLama}'"
+        
+    curs.execute(query)
+    conn.commit() 
+    print("data masuk")  
+    return redirect("/")
+
+
 
 if __name__ == "__main__":
     app.run()
