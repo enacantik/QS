@@ -1,3 +1,11 @@
+<!-- <!doctype html>
+<html>
+
+<p> I am normal</p>
+<p style="color:red;">I am red</p>
+<p style="color:blue;">I am blue</p>
+<p style="font-size:50px;">I am big</p> -->
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -14,7 +22,7 @@
 
         td,
         th {
-            border: 4px solid black;
+            border: 3px solid black;
             text-align: left;
             padding: 8px;
         }
@@ -22,22 +30,74 @@
         tr:nth-child(even) {
             background-color: blueviolet;
         }
-    </style>     
-</head>
+    </style>  
 
+</head>
 <body>
+    <!-- <div class="container my.5"> -->
     <div>
-        <h1>Ini request</h1>
+        <h1> ini request</h1>
+        <!-- <h1> Tambah data</h1> -->
+        <!-- <div class="mb.3"> -->
         <form action="" method="post">
+            <!-- <label for="exampleFormControlInput1" class="form.label">Nama</label>
+            <input class="form.control" name="nama" type="text" required>
+            <label for="exampleFormControlInput1" class="form.label">Keterangan</label>
+            <input class="form.control" name="detail" type="text" required>
+            <button type="submit" class="btn btn.primary mt.3">kirim</button> -->
+            <label for="">nama</label>
+            <input name="nama" type="text" required>
+            <input for="">detail</label>
+            <input name="detail" type=""text" required>
+            <button type="submit">kirim</button>
+
+            </form>
+            
+            <hr>
+            <h1>Ini Respons</h1>
+
+            <table>
+                <tr>
+                    <th>id</th>
+                    <th>nama</th>
+                    <th>detail</th>
+                </tr>
+                {% for d in context %}
+                <tr>
+                    <td>{{loop.index}}</td>
+                    <td>{{d[1]}}</td>
+                    <td>
+                        <a href="/detail/{{d[0}}}">
+                            <button class="btn-info">detail</button>
+                        </a> 
+                        <a href="/update/{{d[0}}}">
+                            <button class="btn- btn-warning">update</button>
+                        </a>
+                        <a href="/delete/{{d[0]}}">
+                            <button class="btn btn-danger">delete</button>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+
+
+        <div>
+    </body>
+<html>
+
+
+<!-- 
+            <form action="" method="post">
             <label for="">nama</label>
             <input name="nama" type="text" required>
             <label for="">detail</label>
             <input name="detail" type="text" required>
             <button type="submit">kirim</button>
 
-        </form>
+        </form> -->
 
-    <hr>
+    <!-- <hr>
     <h1>Ini responses</h1>
     {{context}}
     <br>
@@ -47,28 +107,27 @@
             <th>nama</th>
             <th>actions</th>
             <!-- <<th>detail</th> -->
-        </tr>
+        <!-- </tr>
         {% for d in context %}
         <tr>
-            <td>{{d[0]}}</td>
-            <td>{{d[1]}}</td>
+            <td>{{loop.index}}</td>
+            <!-- <td>{{d[0]}}</td> -->
+            <!-- <td>{{d[1]}}</td>
             <td>
                 <a href="/detail/{{d[0]}}">
-                    <button>detail</button>
+                    <button class="btn btn-info">detail</button>
                 </a>
                 <a href="/update/{{d[0]}}">
-                    <button>update</button>
+                    <button class="btn btn-warning">update</button>
                 </a>
                 <a href="/delete/{{d[0]}}">
-                    <button>delete</button>
-                </a> 
-            </td> 
+                    <button class="btn btn-danger">delete</button>
+                </a>  -->
+            <!-- </td> 
             <!-- <td>{{d[2]}}</td> -->
         </tr>
         {% endfor %}
     </table>
 </div>
-</body>
 
-</html>
-
+</html> --> --> -->
