@@ -36,25 +36,25 @@ def index():
     # data =["pisang", "jambu", "durian"]
     return render_template("index.html", context=data)
 
-# @app.route("/detail/<buah_id>")
-# def detail(buah_id):
-#     conn = psycopg2.connect(
-#         host="localhost",
-#         database="contoh",
-#         user="postgres",
-#         password="enacantiksekali")
+@app.route("/detail/<buah_id>")
+def detail(buah_id):
+    conn = psycopg2.connect(
+        host="localhost",
+        database="contoh",
+        user="postgres",
+        password="enacantiksekali")
 
-#     curs = conn.cursor()
-#     query = f"select * from buah where id = {buah_id}"
-#     curs.execute(query)
-#     data = curs.fetchone()
-#     curs.close()
-#     conn.close()
-#     print(data)
-#     return render_template("detail.html", context=data)
+    curs = conn.cursor()
+    query = f"select * from buah where id = {buah_id}"
+    curs.execute(query)
+    data = curs.fetchone()
+    curs.close()
+    conn.close()
+    print(data)
+    return render_template("detail.html", context=data)
 
 @app.route("/delete/<buah_id>")
-def detail(buah_id):
+def delete(buah_id):
     conn = psycopg2.connect(
         host="localhost",
         database="contoh",
@@ -79,9 +79,9 @@ def update(buah_id):
         
     curs = conn.cursor()
 
-    namaLama = 'kueni'
-    namaBaru = 'markisa'
-    detailBaru = 'segar'   
+    namaLama = 'mangga'
+    namaBaru = 'mangga'
+    detailBaru = 'asam'   
     query = f"update buah set nama='{namaBaru}',  detail='{detailBaru}' where nama ='{namaLama}'"
         
     curs.execute(query)
