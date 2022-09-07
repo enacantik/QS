@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td,
+        th {
+            border: 3px solid black;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgb(210, 189, 243);
+        }
+    </style>     
+</head>
+
+<body style="background-color:paleturquoise;">
+    <div>
+        <h1>Tambah Data</h1>
+        <form action="" method="POST">            
+            <label for="">Nama</label>
+            <input name="nama" type="text" required>
+            <label for="">>Jenis Kelamin</label>
+            <input name="jenis_kelamin" type="text" required>
+            <label for="">Tanggal Lahir</label>
+            <input name="tanggal_lahir" type="text" required>
+            <label for="">Vitamin A</label>
+            <input name="vitamin_a" type="text" required>
+            <label for="">Berat Badan</label>
+            <input name="berat_badan" type="text" required>
+            <label for="">Tinggi Badan</label>
+            <input name="tinggi_badan" type="text" required>
+            <label for="">Lingkar Kepala</label>
+            <input name="lingkar_kepala" type="text" required>
+            <input for="">Keterangan</label>
+            <input name="keterangan" type="text" required>
+            <button type="submit">kirim</button>
+
+        </form>
+            
+        <hr>
+        <h1>List Data</h1>
+        <br>
+        <table>
+            <tr>
+                <th style="color:blue; font-family: arial, sans-serif;
+                border-collapse: collapse;"></p>Id</th>
+                <th style="color:blue;"></p>Nama</th>
+                <th style="color:blue;"></p>Jenis Kelamin</th>
+                <th style="color:blue;"></p>Tanggal Lahir</th>
+                <th style="color:blue;"></p>Vitamin A</th>
+                <th style="color:blue;"></p>Berat Badan</th>
+                <th style="color:blue;"></p>Tinggi Badan</th>
+                <th style="color:blue;"></p>Lingkar Kepala</th>
+                <th style="color:blue;"></p>Keterangan</th>
+                <!-- <th>detail</th> -->
+            </tr>
+            {% for d in context %}
+            <tr>
+                <td>{{loop.index}}</td>
+                <td>{{d[1]}}</td>
+                <td>{{d[2]}}</td>
+                <td>{{d[3]}}</td>
+                <td>{{d[4]}}</td>
+                <td>{{d[5]}}</td>
+                <td>{{d[6]}}</td>
+                <td>{{d[7]}}</td>
+                <td>{{d[8]}}</td>
+                
+                <td>
+                    {% endfor %}
+        </table>
+
+    <div>
+</body>
+<html>
+
+
+    
