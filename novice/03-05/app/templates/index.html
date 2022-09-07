@@ -1,15 +1,8 @@
-<!-- <!doctype html>
-<html>
-
-<p> I am normal</p>
-<p style="color:red;">I am red</p>
-<p style="color:blue;">I am blue</p>
-<p style="font-size:50px;">I am big</p> -->
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Document</title>
@@ -17,7 +10,7 @@
         table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
-            width: 100%;
+            width: 40%;
         }
 
         td,
@@ -28,106 +21,56 @@
         }
 
         tr:nth-child(even) {
-            background-color: blueviolet;
+            background-color: rgb(210, 189, 243);
         }
-    </style>  
-
+    </style>     
 </head>
-<body>
-    <!-- <div class="container my.5"> -->
+
+<body style="background-color:paleturquoise;">
     <div>
-        <h1> ini request</h1>
-        <!-- <h1> Tambah data</h1> -->
-        <!-- <div class="mb.3"> -->
-        <form action="" method="post">
-            <!-- <label for="exampleFormControlInput1" class="form.label">Nama</label>
-            <input class="form.control" name="nama" type="text" required>
-            <label for="exampleFormControlInput1" class="form.label">Keterangan</label>
-            <input class="form.control" name="detail" type="text" required>
-            <button type="submit" class="btn btn.primary mt.3">kirim</button> -->
-            <label for="">nama</label>
+        <h1>Tambah Data</h1>
+        <form action="" method="POST">            
+            <label for=""><h1 style="color: brown;">Nama</label>
             <input name="nama" type="text" required>
-            <input for="">detail</label>
-            <input name="detail" type=""text" required>
-            <button type="submit">kirim</button>
-
-            </form>
-            
-            <hr>
-            <h1>Ini Respons</h1>
-
-            <table>
-                <tr>
-                    <th>id</th>
-                    <th>nama</th>
-                    <th>detail</th>
-                </tr>
-                {% for d in context %}
-                <tr>
-                    <td>{{loop.index}}</td>
-                    <td>{{d[1]}}</td>
-                    <td>
-                        <a href="/detail/{{d[0}}}">
-                            <button class="btn-info">detail</button>
-                        </a> 
-                        <a href="/update/{{d[0}}}">
-                            <button class="btn- btn-warning">update</button>
-                        </a>
-                        <a href="/delete/{{d[0]}}">
-                            <button class="btn btn-danger">delete</button>
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
-
-
-        <div>
-    </body>
-<html>
-
-
-<!-- 
-            <form action="" method="post">
-            <label for="">nama</label>
-            <input name="nama" type="text" required>
-            <label for="">detail</label>
+            <input for="">Detail</label>
             <input name="detail" type="text" required>
             <button type="submit">kirim</button>
 
-        </form> -->
+        </form>
+            
+        <hr>
+        <h1>List Data</h1>
+        <br>
+        <table>
+            <tr>
+                <th style="color:blue; font-family: arial, sans-serif;
+                border-collapse: collapse;"></p>Id</th>
+                <th style="color:blue;"></p>Nama</th>
+                <th style="color:blue;"></p>Actions</th>
+                     
+                <!-- <th>detail</th> -->
+            </tr>
+            {% for d in context %}
+            <tr>
+                <td>{{loop.index}}</td>
+                <td>{{d[1]}}</td>
+                <td>
+                    <a href="/detail/{{d[0]}}">
+                        <button class=" btn btn-info"><a style="color: yellow;">detail</button>
+                    </a> 
+                    <a href="/update/{{d[0]}}">
+                        <button class="btn btn-warning"><a style="color: blueviolet;">update</button>
+                    </a>
+                    <a href="/delete/{{d[0]}}">
+                        <button class="btn btn-danger"><a style="color: red;">delete</button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    <div>
+</body>
+<html>
 
-    <!-- <hr>
-    <h1>Ini responses</h1>
-    {{context}}
-    <br>
-    <table>
-        <tr>
-            <th>id</th>
-            <th>nama</th>
-            <th>actions</th>
-            <!-- <<th>detail</th> -->
-        <!-- </tr>
-        {% for d in context %}
-        <tr>
-            <td>{{loop.index}}</td>
-            <!-- <td>{{d[0]}}</td> -->
-            <!-- <td>{{d[1]}}</td>
-            <td>
-                <a href="/detail/{{d[0]}}">
-                    <button class="btn btn-info">detail</button>
-                </a>
-                <a href="/update/{{d[0]}}">
-                    <button class="btn btn-warning">update</button>
-                </a>
-                <a href="/delete/{{d[0]}}">
-                    <button class="btn btn-danger">delete</button>
-                </a>  -->
-            <!-- </td> 
-            <!-- <td>{{d[2]}}</td> -->
-        </tr>
-        {% endfor %}
-    </table>
-</div>
 
-</html> --> --> -->
+    
