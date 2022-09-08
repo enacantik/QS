@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Data Santri Qoryatusalam</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>    
+<body>
+    <div>
+        <h1>Data Santri Qoryatussalam</h1>
+        <form keterangan="" method="POST">
+            Nama <input name="nama" type="text" required>
+            <div>
+            <br>   
+            Keterangan <input name="keterangan" type="keterangan" required>
+            <br> 
+            <button type="submit">kirim</button>
+        </form>
+            
+        <hr>
+        <h1>Pencarian</h1>
+        <br>
+        <table>
+            <tr>
+                <th style="background-color:dodgerblue; border: 2px solid dodgerblue;"></p>Id</th>
+                <th style="background-color:dodgerblue; border: 2px solid dodgerblue;"></p>Nama</th>
+                <th style="background-color:dodgerblue; border: 2px solid dodgerblue;"></p>Keterangan</th>
+                     
+                <!-- <th>detail</th> -->
+            </tr>
+            {% for d in context %}
+            <tr>
+                <td>{{loop.index}}</td>
+                <td>{{d[1]}}</td>
+                <td>
+                    <a href="/detail/{{d[0]}}">
+                        <button class=" btn btn-info"><a style="color: yellow;">detail</button>
+                    </a> 
+                    <a href="/update/{{d[0]}}">
+                        <button class="btn btn-warning"><a style="color: blueviolet;">update</button>
+                    </a>
+                    <a href="/delete/{{d[0]}}">
+                        <button class="btn btn-danger"><a style="color: red;">delete</button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    <div>
+</body>
+<html>
+
+
+    

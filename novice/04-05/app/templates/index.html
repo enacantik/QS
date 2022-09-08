@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collaps;
+            width: 100%;
+        }
+
+        td,
+        th {
+            border: lpx solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container my-5">
+        <h1>Ini request</h1>
+        <form action="" method="post">
+            <label for="exampleFormControlInput1" class="form-label">nama</label>
+            <input class="form-control" name="nama" type="text" required>
+            <label for="exampleFormControlInput1" class="form-label">detail</label>
+            <input class="form-control" name="detail" type="text"> <required>
+            <button type="submit">kirim</button>
+
+        </form>
+
+        <hr>
+        <h1>Ini response</h1>
+        <br>
+        <table>
+            <tr>
+                <th>id</th>
+                <th>nama</th>
+                <th>actions</th>
+            </tr>
+            {% for d in context %}
+            <tr>
+                <td>{{loop.index}}</td>
+                <td>{{d[1]}}</td>
+                <td>
+                    <a href="/detail/{{d[0]}}">
+                        detail 
+                    </a>
+                    <a href="/update/{{d[0]}}">
+                        update
+                    </a>
+                    <a href="/delete/{{d[0]}}">
+                        delete
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+
+</html>

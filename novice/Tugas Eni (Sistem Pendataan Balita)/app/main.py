@@ -27,6 +27,7 @@ def index():
         conn.commit()        
         curs.close()
         conn.close()
+        (request.method)
 
 if __name__== "__main__":
      app.run()

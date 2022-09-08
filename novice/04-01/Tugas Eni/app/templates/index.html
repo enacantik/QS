@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Posyandu</title>
+</head>
+<body>
+        <a>Sistem Pendataan Posyandu</a>
+        <div class ="container">
+            <div class = "row">
+                <h1>Add Balita</h1>
+        </div>
+              
+        <div class = "row">
+        <div class = "col-lg-3">
+            <a th:href = "@{/data_posyandu/new}" class = "btn btn-primary btn-sm mb-3">Data Balita</a>
+        </div>
+            <table class = "table table-striped table-bordered">
+                <thead class = "table-dark">
+                    <tr>
+                        <th> Nama</th>
+                        <th> Jenis Kelamin</th>
+                        <th> Tanggal Lahir</th>
+                        <th> Vitamin A</th>
+                        <th> Berat Badan</th>
+                        <th> Tinggi Badan</th>
+                        <th> Lingkar Kepala</th>
+                        <th> Keterangan</th>
+                        <th> Actions </th>
+                    </tr>
+    </thead>
+    <tbody>
+    </table> 
+        <tr th:each = "data_posyandu: ${data_posyandu}">
+            <td th:text = "${nama}"></td>
+            <td th:text = "${jenis_kelamin}"></td>
+            <td th:text = "${tanggal_lahir}"></td>
+            <td th:text = "${vitamin_a}"></td>
+            <td th:text = "${berat_badan}"></td>
+            <td th:text = "${tinggi_badan}"></td>
+            <td th:text = "${lingkar_kepala}"></td>
+            <td th:text = "${keterangan}"></td>
+        </tr>
+        {% for d in context %}
+        <tr>
+            <td>{{loop.index}}</td>
+            <td>{{d[1]}}</td>
+            <td>
+                <a href="/detail/{{d[0]}}">
+                    <button class=" btn btn-info"><a style="color: yellow;">detail</button>
+                </a> 
+                <a href="/update/{{d[0]}}">
+                    <button class="btn btn-warning"><a style="color: blueviolet;">update</button>
+                </a>
+                <a href="/delete/{{d[0]}}">
+                    <button class="btn btn-danger"><a style="color: red;">delete</button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}           
+        </tr>
+    </table>  
+    </tbody>    
+
+</body>
+</html>
+      
+
+
+    <!-- <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td,
+        th {
+            border: 3px solid black;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgb(210, 189, 243);
+        }
+    </style>     
+
+
+<body style="background-color:paleturquoise;">
+    <div>
+        <h1>Tambah Data</h1>
+        <form action="" method="post">            
+            <label for="">Nama</label>
+            <input name="nama" type="text" required>
+            <label for="">Jenis Kelamin</label>
+            <input name="jenis_kelamin" type="text" required>
+            <label for="">Tanggal Lahir</label>
+            <input name="tanggal_lahir" type="text" required>
+            <label for="">Vitamin A</label>
+            <input name="vitamin_a" type="text" required>
+            <label for="">Berat Badan</label>
+            <input name="berat_badan" type="text" required>
+            <label for="">Tinggi Badan</label>
+            <input name="tinggi_badan" type="text" required>
+            <label for="">Lingkar Kepala</label>
+            <input name="lingkar_kepala" type="text" required>
+            <input for="">Keterangan</label>
+            <input name="keterangan" type="text" required>
+            <button type="submit">kirim</button>
+        </form>
+            
+            <hr>
+        
+            <h1>List Data</h1>
+            <br>
+            <table>
+            <tr>
+                <th style="color:blue; font-family: arial, sans-serif;
+                border-collapse: collapse;"></p>Id</th>
+                <th style="color:blue;"></p>Nama</th>
+                <th style="color:blue;"></p>Jenis Kelamin</th>
+                <th style="color:blue;"></p>Tanggal Lahir</th>
+                <th style="color:blue;"></p>Vitamin A</th>
+                <th style="color:blue;"></p>Berat Badan</th>
+                <th style="color:blue;"></p>Tinggi Badan</th>
+                <th style="color:blue;"></p>Lingkar Kepala</th>
+                <th style="color:blue;"></p>Keterangan</th>
+                <!-- <th>detail</th> -->
+            <!-- <tr>
+            {% for d in context %}
+            <tr>
+                <td>{{loop.index}}</td>
+                <td>{{d[1]}}</td>
+                <td>{{d[2]}}</td>
+                <td>{{d[3]}}</td>
+                <td>{{d[4]}}</td>
+                <td>{{d[5]}}</td>
+                <td>{{d[6]}}</td>
+                <td>{{d[7]}}</td>
+                <td>{{d[8]}}</td> 
+                <td>
+                    <a href="/detail/{{d[0]}}">
+                        <button class=" btn btn-info"><a style="color: yellow;">detail</button>
+                    </a> 
+                    <a href="/update/{{d[0]}}">
+                        <button class="btn btn-warning"><a style="color: blueviolet;">update</button>
+                    </a>
+                    <a href="/delete/{{d[0]}}">
+                        <button class="btn btn-danger"><a style="color: red;">delete</button>
+                    </a>
+                </td> 
+            </tr>
+            {% endfor %}
+        
+        <hr>
+        <h1>Data Balita</h1>
+        {{content}}
+        <br>
+        {% for d in context %}
+        <ul>
+            <li>{{d}}</li>
+        <ul>
+            {% endfor %}
+        <hr>
+    </div>
+</body>
+<html> --> -->
